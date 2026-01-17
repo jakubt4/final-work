@@ -1,0 +1,10 @@
+spring:
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+jwt:
+  secret: test-secret-key-for-testing-only-256-bits-minimum-required
+  expiration: 3600000  # 1 hour for tests
