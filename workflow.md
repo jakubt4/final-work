@@ -302,17 +302,17 @@ Nic.
 
 **Poznámky / Learnings:**
 ```
-po tom som to commitol a pushol cez /gh-cpc
+po tom som to commitol a pushol cez /gh-cpc a clearol context cez /clear
 ```
 
-### Prompt #10: Execute PRP Part 2
+### Prompt #11: Execute PRP Part 3
 
 **Nástroj:** [ claude code ]  
 **Kontext:** [Generate PRPs]
 
 **Prompt:**
 ```
-/execute-prp gpu-ecommerce-platform-part2.md 
+/execute-prp gpu-ecommerce-platform-part3.md 
 ```
 
 **Výsledok:**  
@@ -501,7 +501,7 @@ nastudovat danu problematiku popripade sa spytat AI ako to spravit spravne - pri
 
 ### 6.5 Čo by som urobil inak
 ```
-[Keby si začínal znova, čo by si zmenil?]
+- dal by som si generovat workflow pre kazdy command
 ```
 
 ### 6.6 Hlavný odkaz pre ostatných
