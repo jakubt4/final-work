@@ -8,6 +8,22 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Abstract base entity class providing common fields for all JPA entities.
+ *
+ * <p>Provides automatic management of:</p>
+ * <ul>
+ *   <li>{@code id} - Auto-generated primary key</li>
+ *   <li>{@code createdAt} - Timestamp when the entity was created</li>
+ *   <li>{@code updatedAt} - Timestamp of the last modification</li>
+ * </ul>
+ *
+ * <p>Uses JPA auditing to automatically populate timestamp fields.</p>
+ *
+ * @author GPU Store Team
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {

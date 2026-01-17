@@ -5,6 +5,16 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+/**
+ * JPA entity representing a user in the GPU E-commerce Platform.
+ *
+ * <p>Users can register, authenticate, and place orders for products.
+ * Each user has a unique email address used for authentication.</p>
+ *
+ * @author GPU Store Team
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
