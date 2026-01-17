@@ -19,7 +19,12 @@
       "Bash(git checkout:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(gh pr create:*)"
+      "Bash(gh pr create:*)",
+      "Bash(gh pr list:*)",
+      "Bash(MAVEN_SKIP_RC=true MAVEN_OPTS=\"\" ./mvnw clean compile:*)",
+      "Bash(MAVEN_SKIP_RC=true MAVEN_OPTS=\"\" MAVEN_CONFIG=\"\" ./mvnw clean:*)",
+      "Bash(set +u)",
+      "Bash(bash:*)"
     ]
   }
 }
