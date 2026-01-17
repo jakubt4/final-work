@@ -248,36 +248,36 @@ Nic.
 
 **Poznámky / Learnings:**
 ```
-restartol som session a overil ci tam je cez /mcp
+restartol som session a overil ci tam je cez /mcp - nebolo na prvy krat takze som to musel vyriesit cez dalsi prikaz (claude mcp add github and use the one from .mcp.json)
 ```
 
 ## 3. Problémy a Riešenia 
 
 > 💡 **Tip:** Problémy sú cenné! Ukazujú ako riešiš problémy s AI.
 
-### Problém #1: _________________________________
+### Problém #1: Mysliet na to ktore MCP budem vyuzivat a pripravit si vopred
 
 **Čo sa stalo:**
 ```
-[Detailný popis problému - čo nefungovalo? Aká bola chyba?]
+Instaloval som si github mcp cez claudeho - to bolo fajn, ale nasledne to  mi to pri restarte ukazalo ze ziadne MCP tam nie su. Zdrzalo ma to pri vyvoji.
 ```
 
 **Prečo to vzniklo:**
 ```
-[Tvoja analýza - prečo AI toto vygeneroval? Čo bolo v prompte zlé?]
+Nepridal som to do claude.
 ```
 
 **Ako som to vyriešil:**
 ```
-[Krok za krokom - čo si urobil? Upravil prompt? Prepísal kód? Použil iný nástroj?]
+zavolal som tento command 'claude mcp add github and use the one from .mcp.json'
 ```
 
 **Čo som sa naučil:**
 ```
-[Konkrétny learning pre budúcnosť - čo budeš robiť inak?]
+nastudovat danu problematiku popripade sa spytat AI ako to spravit spravne - pripravit si taketo veci vopred (mysliet na to pri planovani)
 ```
 
-**Screenshot / Kód:** [ ] Priložený
+**Screenshot / Kód:** [ - ]
 
 ---
 
