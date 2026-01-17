@@ -626,6 +626,7 @@ Compact vs usage
 - Cross-cutting concerns (Javadocs, Logging) by som zahrnul priamo do 'generate-prp' promptu. Dorabat ich dodatocne znamenalo precitat a prepisat cely projekt znova, co ma stalo 50% usage
 - Skorsia formalizacia workflowu. Namiesto ad-hoc pisania by som si hned na zaciatku vytvoril sadu custom prikazov v .claude/commands pre vsetky bezne operacie (nie len pre init)
 - 'Environment Check' pred startom. Uistil by som sa, ze MCP servery (GitHub) a Docker (a ine) bezia a su spravne nacitane v CLI este predtym, nez miniem prvy token na generovanie kodu
+- Disposable Test UI. Hned s backendom by som dal vygenerovat aj jednoduchy 'throwaway' klient (napr. HTML/JS) na testovanie realnych scenarov (User Journeys) a CORS nastaveni, pretoze Swagger je vyborny na dokumentaciu, ale nemotorny na testovanie zlozitejsich tokov (napr. Auth -> Order flow)
 ```
 
 ### 6.6 Hlavný odkaz pre ostatných
