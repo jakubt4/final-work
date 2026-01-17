@@ -19,6 +19,7 @@ logs/
 *.log
 secrets.properties
 .env
+.mcp.json
 
 # Docker / Testcontainers
 .testcontainers.properties

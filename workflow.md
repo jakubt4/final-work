@@ -15,7 +15,7 @@
 Vyplň približný čas strávený s každým nástrojom:
 
 - [ ] **Cursor IDE:** _____ hodín
-- [x] **Claude Code:** 3m +  hodín  
+- [x] **Claude Code:** 5m +  hodín  
 - [ ] **GitHub Copilot:** _____ hodín
 - [ ] **ChatGPT:** _____ hodín
 - [ ] **Claude.ai:** _____ hodín
@@ -169,6 +169,7 @@ Nic.
 Tento prvy INITIAL.md som si ulozil aby som ho nestratil kedze tam mam zaklad vsetkeho
 ```
 
+
 ### Prompt #6: Commit,push, create PR
 
 **Nástroj:** [ claude code ]  
@@ -194,6 +195,60 @@ Nic.
 **Poznámky / Learnings:**
 ```
 -
+```
+
+### Prompt #7: Generate PRPs
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [Generate PRPs]
+
+**Prompt:**
+```
+/generate-prp ENHANCED-INITIAL-gpu-ecommerce-platform
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+-
+```
+
+### Prompt #8: Install mcp for github
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [Generate PRPs]
+
+**Prompt:**
+```
+install mcp for github
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+restartol som session a overil ci tam je cez /mcp
 ```
 
 ## 3. Problémy a Riešenia 
