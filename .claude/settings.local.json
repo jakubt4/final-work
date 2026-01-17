@@ -24,7 +24,12 @@
       "Bash(MAVEN_SKIP_RC=true MAVEN_OPTS=\"\" ./mvnw clean compile:*)",
       "Bash(MAVEN_SKIP_RC=true MAVEN_OPTS=\"\" MAVEN_CONFIG=\"\" ./mvnw clean:*)",
       "Bash(set +u)",
-      "Bash(bash:*)"
+      "Bash(bash:*)",
+      "Bash(gh repo view:*)",
+      "Bash(./mvnw clean verify:*)",
+      "Bash(mvn clean verify:*)",
+      "Bash(mvn test:*)",
+      "Bash(mvn test-compile:*)"
     ]
   }
 }
