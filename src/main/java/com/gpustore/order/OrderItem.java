@@ -14,6 +14,16 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+/**
+ * JPA entity representing an item within an order.
+ *
+ * <p>Each order item references a product, quantity, and the price
+ * at the time of purchase (which may differ from current product price).</p>
+ *
+ * @author GPU Store Team
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 @Entity
 @Table(name = "order_items")
 public class OrderItem {

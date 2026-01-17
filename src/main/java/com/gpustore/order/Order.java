@@ -17,6 +17,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JPA entity representing a customer order.
+ *
+ * <p>Orders contain a list of order items, total amount, and status.
+ * Each order belongs to a user and goes through various states
+ * (PENDING, PROCESSING, COMPLETED, EXPIRED).</p>
+ *
+ * @author GPU Store Team
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 @Entity
 @Table(name = "orders")
 public class Order extends BaseEntity {

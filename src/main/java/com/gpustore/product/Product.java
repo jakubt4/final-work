@@ -12,6 +12,16 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
+/**
+ * JPA entity representing a GPU product in the catalog.
+ *
+ * <p>Products have a name, optional description, price, and stock quantity.
+ * Stock is tracked and updated when orders are placed.</p>
+ *
+ * @author GPU Store Team
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 @Entity
 @Table(name = "products")
 public class Product extends BaseEntity {
