@@ -248,7 +248,7 @@ Nic.
 
 **Poznámky / Learnings:**
 ```
-restartol som session a overil ci tam je cez /mcp - nebolo na prvy krat takze som to musel vyriesit cez dalsi prikaz (claude mcp add github and use the one from .mcp.json)
+restartol som session a overil ci tam je cez /mcp - nebolo na prvy krat takze som to musel vyriesit cez dalsi prikaz (claude mcp add github and use the one from .mcp.json) - bola to moja chyba, command spravil co som mu napisal
 ```
 
 ### Prompt #9: Execute PRP Part 1
@@ -359,6 +359,61 @@ Nic.
 po tom som to commitol a pushol cez /gh-cpc a clearol cez /clear
 ```
 
+### Prompt #12: Missing logs and jdocs
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [Generate logging and jdocs]
+
+**Prompt:**
+```
+generate jdocs for all classes + logging
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+to som zabudol uplne zahrnut do planu/zakladneho kontextu + /gh-cpc
+```
+
+### Prompt #13: Compact
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [Compact context]
+
+**Prompt:**
+```
+/compact
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic. Len 4h dalsieho cakania na reset usage :)
+```
+
+**Poznámky / Learnings:**
+```
+command spravil co mal, ale zhltol mo strasne vela usage kedze predchadzajuci command bol dost velky a vytvoril strasne vela contexty - moja chyba.
+```
+
+
 ## 3. Problémy a Riešenia 
 
 > 💡 **Tip:** Problémy sú cenné! Ukazujú ako riešiš problémy s AI.
@@ -389,22 +444,35 @@ nastudovat danu problematiku popripade sa spytat AI ako to spravit spravne - pri
 
 ---
 
-### Problém #2: _________________________________
+### Problém #2: Compact
 
 **Čo sa stalo:**
 ```
+zavolal som compact za velkym contextom na velkom objeme dat
 ```
 
 **Prečo:**
 ```
+zacal mi dochadzat context
 ```
 
 **Riešenie:**
 ```
+radsej clear/exit
 ```
 
 **Learning:**
 ```
+Cesta A: "Incremental Development" (Počas vývoja)
+Pridat požiadavku na Javadocs a Logovanie priamo do PRP (napr. do generate-prp.md).
+
+Prečo: Keď Claude generuje súbor prvýkrát, pridanie Javadocu ho "nestojí" skoro nič navyše, lebo ten súbor aj tak práve píše. Je to zadarmo v rámci prvého prechodu.
+
+Cesta B: "IDE Tools" (Zadarmo)
+Na generovanie Javadocov a základných logov nepoužívat LLM (Claude Code).
+
+V IntelliJ IDEA alebo VS Code existujú pluginy (napr. GhostDoc alebo zabudované AI asistenty ako Copilot s inline editovaním), ktoré ti vygenerujú Javadoc pre metódu jedným klikom.
+
 ```
 
 ## 4. Kľúčové Poznatky
@@ -413,18 +481,26 @@ nastudovat danu problematiku popripade sa spytat AI ako to spravit spravne - pri
 
 **1.** 
 ```
-[Príklad: Claude Code pre OAuth - fungoval first try, zero problémov]
+Vytvorenie "Master Workflow":
+Myslim ze subor master-init.md sa mi vydaril aj s pomocou Gemini PRO. Nie je to len prompt, je to cely operacny system pre vyvoj, ktory definuje strukturu, gitignore, prikazy aj sablony.
 ```
 
 **2.** 
 ```
+Architektura riesenia
+Napriek limitom som nerezignoval na kvalitu. Moj PRP definuje moderny stack (Java 21, Spring Boot 3.4, Testcontainers, Flyway) a neprijal som ziadne skratky.
 ```
 
 **3.** 
 ```
+Adaptabilita
+Ked som narazil na limit (10% baterky), nespanikaril som. Namiesto toho som prekopal proces (generate-prp.md a execute-prp.md) na verziu, ktora funguje bezpecne aj s nizkym rozpoctom.
 ```
-
-**[ Pridaj viac ak chceš ]**
+**4.**
+```
+Automatizacia
+Vdaka vlastnym custom prikazom (/enhance-init, /generate-prp, /execute-prp -> odkukane od https://github.com/StreetOfCode/task-managemenet-system ale vylepsne) teraz dokazem replikovat tento uspech na akomkolvek dalsom projekte v priebehu minut (teda podla usage:)).
+```
 
 ---
 
@@ -432,15 +508,20 @@ nastudovat danu problematiku popripade sa spytat AI ako to spravit spravne - pri
 
 **1.** 
 ```
-[Príklad: Figma MCP spacing - často o 4-8px vedľa, musel som manuálne opravovať]
+Manazment zdrojov vs. Ambicie (vytvorenie kvalitneho contextu)
+Bolo narocne vybalansovat snahu o "seniornu kvalitu" (robustna architektura, testy, dokumentacia) s tvrdymi limitmi nastroja. Musel som sa naucit strategicky davkovat ulohy a niekedy aj cakat na obnovu kvoty, namiesto toho, aby som to nechal bezat v kuse a dostal nekvalitny vysledok. 
 ```
 
 **2.** 
 ```
+Pasca s prikazom Compact
+Moment, ked som minul 50% usage na generovanie dokumentacie a nasledne som to "dorazil" prikazom /compact, ktory musel cely ten obrovsky kontext nacitat znova. Bola to draha, ale cenna lekcia.
 ```
 
 **3.** 
 ```
+Tooling Friction (.mcp.json):
+Zistenie, ze Claude Code (CLI) necita .mcp.json automaticky pri starte a ze nastroje musim registrovat imperativne cez claude mcp add
 ```
 
 ---
@@ -449,23 +530,34 @@ nastudovat danu problematiku popripade sa spytat AI ako to spravit spravne - pri
 
 **1.** 
 ```
-[Príklad: Vždy špecifikuj verziu knižnice v prompte - "NextAuth.js v5"]
+Token Economics & Context Hygiene
+Zistil som, ze prikaz /compact nie je zadarmo – prave naopak, stoji to tokeny, lebo model musi precitat a zhrnut historiu.
+Naucil som sa pouzivat /clear vzdy pred zaciatkom novej, logicky oddelenej ulohy (napr. prechod z Part 1 na Part 2), co setri usage.
 ```
 
 **2.** 
 ```
+Split Strategy (Lazy Loading)
+Namiesto generovania 50 suborov naraz (co vedie k chybam a narazaniu na limity) som implementoval N-Part strategiu.
+Generujem detailne len to, co idem prave teraz implementovat (Part 1), a pre zvysok si nechavam vygenerovat len "outline" (kostru), ktoru rozviniem az neskor.
 ```
 
 **3.** 
 ```
+Scope-Aware Execution
+Upravil som prikazy tak, aby AI nehalucinovala o buducnosti. Pridal som pravidla typu "If Part 1, IGNORE Part 2 requirements", co drasticky setri tokeny a zvysuje presnost.
 ```
 
 **4.** 
 ```
+Planning (MCP)
+Planovat aj s MCPs a najprv si ich pripravit
 ```
 
 **5.** 
 ```
+Planning (Logging & JDocs)
+Naucil som sa, ze poziadavky ako "Javadocs" alebo "Logging" musim zadat hned na zaciatku (v generate-prp), a nie ich robit ako refaktoring na konci, lebo to zbytocne zdvojnasobuje spotrebu tokenov.
 ```
 
 ---
@@ -474,15 +566,17 @@ nastudovat danu problematiku popripade sa spytat AI ako to spravit spravne - pri
 
 **Tip #1:**
 ```
-[Konkrétny, actionable tip]
+Bacha na compact vs usage (command (feature) -> github ops -> clear!; ak je to mozne)
 ```
 
 **Tip #2:**
 ```
+Tvoje prianie je mi rozkazom - bacha co si prajes (rozmyslaj nad commandmi ako aj nad vacsim kontextom)
 ```
 
 **Tip #3:**
 ```
+3x planuj, raz commanduj: rozmyslaj iterativne a rozkuskuj si to (hlavne pri greenfield projektoch).
 ```
 
 ---
@@ -491,47 +585,50 @@ nastudovat danu problematiku popripade sa spytat AI ako to spravit spravne - pri
 
 ### 6.1 Efektivita AI nástrojov
 
-**Ktorý nástroj bol najužitočnejší?** _________________________________
+**Ktorý nástroj bol najužitočnejší?** master-init
 
 **Prečo?**
 ```
+Fungoval ako "exokostra" pre cely vyvoj. Namiesto chaotickeho chatovania mi dal pevnu strukturu. Definoval pravidla hry (tech stack, architekturu) a vdaka prikazom ako /generate-prp automaticky vynutil "Split Strategy", cim ma ochranil pred chybami z pretazenia kontextu. Bez neho by som sa stratil v detailoch a boilerplate kode.
 ```
 
-**Ktorý nástroj bol najmenej užitočný?** _________________________________
-
+**Ktorý nástroj bol najmenej užitočný?** Compact
 **Prečo?**
 ```
+Funguje paradoxne - na to, aby "zmensil" kontext, musi najprv precitat a spracovat celu historiu chatu. Kedze som bol na limite s tokenmi, tento prikaz mi namiesto pomoci "dozral" zvysok dennej kvoty, pretoze som zaplatil za spracovanie obrovskeho mnozstva textu len kvoli zhrnutiu.
 ```
 
 ---
 
 ### 6.2 Najväčšie prekvapenie
 ```
-[Čo ťa najviac prekvapilo pri práci s AI?]
+Zistenie, ako draha je "nepozornost". Ze jedna nedomyslena veta na konci (napr. "dopln javadocs vsade") dokaze v sekunde spalit polovicu dennej kvoty. Prekvapilo ma, ze pre AI neexistuje koncept "malej zmeny" - kazdy edit je v podstate prepisanie suboru, co ma naucilo vazit si kazdy token.
 ```
 
 ---
 
 ### 6.3 Najväčšia frustrácia
 ```
-[Čo bolo najfrustrujúcejšie?]
+Cakanie ked dosiel usage..
 ```
 
 ---
 
 ### 6.4 Najväčší "AHA!" moment
 ```
-[Kedy ti došlo niečo dôležité o AI alebo o developmente?]
+Compact vs usage
 ```
 
 ---
 
 ### 6.5 Čo by som urobil inak
 ```
-- dal by som si generovat workflow pre kazdy command
+- Cross-cutting concerns (Javadocs, Logging) by som zahrnul priamo do 'generate-prp' promptu. Dorabat ich dodatocne znamenalo precitat a prepisat cely projekt znova, co ma stalo 50% usage
+- Skorsia formalizacia workflowu. Namiesto ad-hoc pisania by som si hned na zaciatku vytvoril sadu custom prikazov v .claude/commands pre vsetky bezne operacie (nie len pre init)
+- 'Environment Check' pred startom. Uistil by som sa, ze MCP servery (GitHub) a Docker (a ine) bezia a su spravne nacitane v CLI este predtym, nez miniem prvy token na generovanie kodu
 ```
 
 ### 6.6 Hlavný odkaz pre ostatných
 ```
-[Keby si mal povedať jednu vec kolegom o AI development, čo by to bylo?]
+AI nenahradza seniornych inzinierov, ale meni ich na architektov. Prestavame pisat syntax a zaciname dizajnovat kontext - kvalita vystupu je priamo umerna kvalite tvojho zadania (PRP) a discipline tvojho procesu.
 ```
