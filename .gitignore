@@ -1,0 +1,27 @@
+# Maven / Gradle
+target/
+build/
+.mvn/wrapper/maven-wrapper.properties
+!.mvn/wrapper/maven-wrapper.jar
+.gradle/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+*.classpath
+*.project
+*.settings/
+.DS_Store
+
+# Logs & Local Config
+logs/
+*.log
+secrets.properties
+.env
+
+# Docker / Testcontainers
+.testcontainers.properties
+
+# OS
+Thumbs.db
