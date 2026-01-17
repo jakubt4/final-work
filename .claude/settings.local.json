@@ -16,7 +16,10 @@
       "Bash(docker-compose ps:*)",
       "Bash(timeout 45 mvn spring-boot:run:*)",
       "Bash(mvn clean compile:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)"
     ]
   }
 }
