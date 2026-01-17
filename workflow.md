@@ -227,7 +227,7 @@ Nic.
 ### Prompt #8: Install mcp for github
 
 **Nástroj:** [ claude code ]  
-**Kontext:** [Generate PRPs]
+**Kontext:** [MCPs]
 
 **Prompt:**
 ```
@@ -249,6 +249,60 @@ Nic.
 **Poznámky / Learnings:**
 ```
 restartol som session a overil ci tam je cez /mcp - nebolo na prvy krat takze som to musel vyriesit cez dalsi prikaz (claude mcp add github and use the one from .mcp.json)
+```
+
+### Prompt #9: Execute PRP Part 1
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [Generate PRPs]
+
+**Prompt:**
+```
+/execute-prp gpu-ecommerce-platform-part1.md 
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+-
+```
+
+### Prompt #10: Execute PRP Part 2
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [Generate PRPs]
+
+**Prompt:**
+```
+/execute-prp gpu-ecommerce-platform-part2.md 
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+-
 ```
 
 ## 3. Problémy a Riešenia 

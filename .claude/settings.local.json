@@ -10,7 +10,13 @@
       "Bash(git remote add:*)",
       "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial project setup: GPU E-commerce Platform documentation and AI workflow\n\n- Add core system specification \\(INITIAL.md\\) defining the GPU e-commerce\n  backend with Users, Auth, Products, and Orders modules\n- Add enhanced specification \\(ENHANCED-INITIAL-gpu-ecommerce-platform.md\\)\n  with concrete implementation patterns, database migrations, and\n  project structure\n- Add AI workflow commands for PRP-based development process\n- Include backend requirements and project assignment documentation\n- Configure .gitignore for Maven/Spring Boot project\n\nTechnology stack: Java 21, Spring Boot 3.x, PostgreSQL, JWT, Flyway,\nTestcontainers\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git config:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(./mvnw clean compile:*)",
+      "Bash(mvn wrapper:wrapper:*)",
+      "Bash(docker-compose ps:*)",
+      "Bash(timeout 45 mvn spring-boot:run:*)",
+      "Bash(mvn clean compile:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }
