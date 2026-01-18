@@ -114,7 +114,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public List<Order> findAll() {
         log.debug("Finding all orders");
-        return orderRepository.findAll();
+        return orderRepository.findAllWithItems();
     }
 
     /**
@@ -126,7 +126,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public List<Order> findByUserId(Long userId) {
         log.debug("Finding orders for user: {}", userId);
-        return orderRepository.findByUserId(userId);
+        return orderRepository.findByUserIdWithItems(userId);
     }
 
     /**
@@ -139,7 +139,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public Order findById(Long id) {
         log.debug("Finding order by id: {}", id);
-        return orderRepository.findById(id)
+        return orderRepository.findByIdWithItems(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", id));
     }
 
