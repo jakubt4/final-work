@@ -32,7 +32,12 @@
       "Bash(mvn test-compile:*)",
       "Bash(./mvnw compile:*)",
       "Bash(mvn compile:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Skill(execute-prp)",
+      "Bash(npm install:*)",
+      "Bash(npm run build)",
+      "Bash(npm run lint)",
+      "Skill(gh-cpc)"
     ]
   }
 }
