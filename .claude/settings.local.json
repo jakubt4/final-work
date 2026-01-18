@@ -37,7 +37,10 @@
       "Bash(npm install:*)",
       "Bash(npm run build)",
       "Bash(npm run lint)",
-      "Skill(gh-cpc)"
+      "Skill(gh-cpc)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "mcp__github__get_pull_request"
     ]
   }
 }
