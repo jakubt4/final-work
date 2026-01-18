@@ -8,6 +8,7 @@ This platform provides a complete backend solution for an e-commerce store speci
 
 ## Technology Stack
 
+### Backend
 - **Java 21** - Latest LTS version with virtual threads support
 - **Spring Boot 3.4.1** - Modern Spring framework
 - **Spring Data JPA** - Database persistence
@@ -18,20 +19,30 @@ This platform provides a complete backend solution for an e-commerce store speci
 - **Springdoc OpenAPI 2.7.0** - API documentation
 - **Testcontainers** - Integration testing with real PostgreSQL
 
+### Frontend
+- **React 19** - Modern React with latest features
+- **Vite 7** - Fast build tool and dev server
+- **Tailwind CSS 4** - Utility-first CSS framework
+- **React Router 7** - Client-side routing
+- **Axios** - HTTP client for API communication
+
 ## Prerequisites
 
 - Java 21 JDK
 - Docker & Docker Compose
 - Maven 3.9+ (or use the included Maven wrapper)
+- Node.js 18+ and npm (for frontend)
 
 ## Quick Start
+
+### Backend
 
 1. **Start PostgreSQL:**
    ```bash
    docker-compose up -d
    ```
 
-2. **Run the application:**
+2. **Run the backend:**
    ```bash
    ./mvnw spring-boot:run
    ```
@@ -42,6 +53,31 @@ This platform provides a complete backend solution for an e-commerce store speci
 
 3. **Access Swagger UI:**
    Open [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) in your browser.
+
+### Frontend
+
+1. **Install dependencies:**
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+3. **Access the UI:**
+   Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Available Frontend Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start development server with hot reload |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build locally |
+| `npm run lint` | Run ESLint for code quality |
 
 ## API Documentation
 
@@ -145,22 +181,34 @@ The API uses JWT (JSON Web Token) for authentication.
 ## Project Structure
 
 ```
-src/
-├── main/
-│   ├── java/com/gpustore/
-│   │   ├── auth/           # Authentication module
-│   │   ├── common/         # Shared utilities and exceptions
-│   │   ├── config/         # Security and app configuration
-│   │   ├── order/          # Order management module
-│   │   ├── product/        # Product management module
-│   │   ├── security/       # JWT and security components
-│   │   └── user/           # User management module
-│   └── resources/
-│       ├── application.yml
-│       ├── application-test.yml
-│       └── db/migration/   # Flyway migrations
-└── test/
-    └── java/com/gpustore/  # Integration tests
+├── src/                        # Backend source
+│   ├── main/
+│   │   ├── java/com/gpustore/
+│   │   │   ├── auth/           # Authentication module
+│   │   │   ├── common/         # Shared utilities and exceptions
+│   │   │   ├── config/         # Security and app configuration
+│   │   │   ├── order/          # Order management module
+│   │   │   ├── product/        # Product management module
+│   │   │   ├── security/       # JWT and security components
+│   │   │   └── user/           # User management module
+│   │   └── resources/
+│   │       ├── application.yml
+│   │       ├── application-test.yml
+│   │       └── db/migration/   # Flyway migrations
+│   └── test/
+│       └── java/com/gpustore/  # Integration tests
+│
+└── frontend/                   # React frontend
+    ├── src/
+    │   ├── api/                # API client and service functions
+    │   ├── components/         # Reusable UI components
+    │   ├── context/            # React context providers
+    │   ├── hooks/              # Custom React hooks
+    │   ├── pages/              # Page components
+    │   ├── App.jsx             # Main app component with routing
+    │   └── main.jsx            # Application entry point
+    ├── package.json
+    └── vite.config.js
 ```
 
 ## Database
