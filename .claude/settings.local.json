@@ -50,7 +50,16 @@
       "Bash(export MAVEN_OPTS=\"\")",
       "Bash(export MAVEN_CONFIG=\"\")",
       "Bash(export MAVEN_DEBUG_OPTS=\"\")",
-      "Bash(mvn verify:*)"
+      "Bash(mvn verify:*)",
+      "Bash(./mvnw test-compile:*)",
+      "Bash(mvnw.cmd test-compile:*)",
+      "Bash(cmd.exe //c \"mvnw.cmd test-compile -q\")",
+      "Bash(cmd.exe //c \"D:/dev/workshop/final-work/mvnw.cmd test-compile -q\")",
+      "Bash(cmd.exe //c \"D:/dev/workshop/final-work/mvnw.cmd clean verify\")",
+      "Bash(cmd.exe //c \"D:/dev/workshop/final-work/mvnw.cmd test -Dtest=OrderExpirationJobIT\")",
+      "Bash(cmd.exe //c \"taskkill /IM \"\"Docker Desktop.exe\"\" /F\")",
+      "Bash(cmd.exe //c \"start \"\"\"\" \"\"C:\\\\Program Files\\\\Docker\\\\Docker\\\\Docker Desktop.exe\"\"\")",
+      "Bash(taskkill:*)"
     ]
   }
 }
