@@ -413,6 +413,171 @@ Nic. Len 4h dalsieho cakania na reset usage :)
 command spravil co mal, ale zhltol mo strasne vela usage kedze predchadzajuci command bol dost velky a vytvoril strasne vela contexty - moja chyba.
 ```
 
+### Prompt #14: Compact
+
+**Nástroj:** [  Gemini ]  
+**Kontext:** [UI generator]
+
+**Prompt:**
+```
+uz mam hotove vsetky tieto casti (pre context) - chcem modern frontend primarne na testovanie, nieco jednoduche, ako by si to spravil ? resp daj mi command (v anj) ; taktiez pripajam aky mam flow generovania (enhance->generate->execute) a vygeneruj mi to ako new feature do prilozeneho INITIAL-TEMPLATE.md + mi daj command ako to potom volat v claude code
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic
+```
+
+**Poznámky / Learnings:**
+```
+Frontend vobec nerobim (par krat daco php alebo js alebo html) - takze vsetko necham na AI.
+- attachol som vsetky existujuce PRPs pre context + commands pre context-engineering + initla files (aj template)
+```
+
+### Prompt #15: Generate PRPs for UI
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [Generate PRPs for UI]
+
+**Prompt:**
+```
+/generate-prp "Create Part 5: Modern React Frontend based on the attached INITIAL.md. Focus on the 'Active Iteration Scope'. IMPORTANT: All file paths in the PRP must start with 'frontend/' (e.g., 'frontend/src/App.jsx')." 
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+Od Gemini:
+By updating INITIAL.md manually, you have successfully "pre-loaded" the context, so you can skip the /enhance-init step.
+- na zaklade tejto rady som uz nepouzval enhanced-init.md
+- hned po tom zavolal clear
+```
+
+### Prompt #15: Execute PRP part 1 for UI
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [Execute prp part 1 for ui]
+
+**Prompt:**
+```
+ execute-prp react-frontend/react-frontend-part1.md 
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som zavolal clear
+```
+
+### Prompt #16: Execute PRP part 2 for UI
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [Execute prp part 2 for ui]
+
+**Prompt:**
+```
+ execute-prp react-frontend/react-frontend-part2.md 
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som zavolal clear
+```
+
+### Prompt #17: Execute PRP part 3 for UI
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [Execute prp part 3 for ui]
+
+**Prompt:**
+```
+ execute-prp react-frontend/react-frontend-part3.md 
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som zavolal clear 
+```
+
+### Prompt #18: Update README for frontend
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [add frontend info to README ]
+
+**Prompt:**
+```
+ update readme with info about UI (how to run etc)
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som zavolal clear a gh-cpc
+```
 
 ## 3. Problémy a Riešenia 
 
