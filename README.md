@@ -4,7 +4,7 @@ A RESTful backend API for a GPU e-commerce platform built with Spring Boot.
 
 ## Overview
 
-This platform provides a complete backend solution for an e-commerce store specializing in graphics processing units (GPUs). It includes user management, JWT-based authentication, product catalog management, and order processing with stock management.
+This platform provides a complete backend solution for an e-commerce store specializing in graphics processing units (GPUs). It includes user management, JWT-based authentication, product catalog management, and event-driven order processing with RabbitMQ.
 
 ## Technology Stack
 
@@ -13,11 +13,13 @@ This platform provides a complete backend solution for an e-commerce store speci
 - **Spring Boot 3.4.1** - Modern Spring framework
 - **Spring Data JPA** - Database persistence
 - **Spring Security** - Authentication and authorization
+- **Spring AMQP** - RabbitMQ messaging integration
 - **PostgreSQL 16** - Primary database
+- **RabbitMQ 3.12** - Message broker for async order processing
 - **JWT (JJWT 0.12.6)** - Token-based authentication
 - **Flyway** - Database migrations
 - **Springdoc OpenAPI 2.7.0** - API documentation
-- **Testcontainers** - Integration testing with real PostgreSQL
+- **Testcontainers** - Integration testing with real PostgreSQL and RabbitMQ
 
 ### Frontend
 - **React 19** - Modern React with latest features
@@ -37,7 +39,7 @@ This platform provides a complete backend solution for an e-commerce store speci
 
 ### Backend
 
-1. **Start PostgreSQL:**
+1. **Start infrastructure (PostgreSQL + RabbitMQ):**
    ```bash
    docker-compose up -d
    ```
@@ -51,8 +53,9 @@ This platform provides a complete backend solution for an e-commerce store speci
    mvnw.cmd spring-boot:run
    ```
 
-3. **Access Swagger UI:**
-   Open [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) in your browser.
+3. **Access the services:**
+   - Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+   - RabbitMQ Management: [http://localhost:15672](http://localhost:15672) (guest/guest)
 
 ### Frontend
 
@@ -113,7 +116,7 @@ Run all tests including integration tests:
 ./mvnw clean verify
 ```
 
-Integration tests use Testcontainers to spin up a real PostgreSQL database, so Docker must be running.
+Integration tests use Testcontainers to spin up real PostgreSQL and RabbitMQ instances, so Docker must be running.
 
 Run only unit tests:
 ```bash
@@ -186,8 +189,10 @@ The API uses JWT (JSON Web Token) for authentication.
 │   │   ├── java/com/gpustore/
 │   │   │   ├── auth/           # Authentication module
 │   │   │   ├── common/         # Shared utilities and exceptions
-│   │   │   ├── config/         # Security and app configuration
-│   │   │   ├── order/          # Order management module
+│   │   │   ├── config/         # Security, RabbitMQ configuration
+│   │   │   ├── event/          # Domain events and EventBus
+│   │   │   ├── notification/   # Order notification tracking
+│   │   │   ├── order/          # Order management + async processing
 │   │   │   ├── product/        # Product management module
 │   │   │   ├── security/       # JWT and security components
 │   │   │   └── user/           # User management module
@@ -203,7 +208,7 @@ The API uses JWT (JSON Web Token) for authentication.
     │   ├── api/                # API client and service functions
     │   ├── components/         # Reusable UI components
     │   ├── context/            # React context providers
-    │   ├── hooks/              # Custom React hooks
+    │   ├── hooks/              # Custom React hooks (incl. order polling)
     │   ├── pages/              # Page components
     │   ├── App.jsx             # Main app component with routing
     │   └── main.jsx            # Application entry point
@@ -220,6 +225,22 @@ The application uses PostgreSQL with Flyway for database migrations. The seed da
 - `products` - GPU product catalog
 - `orders` - Customer orders
 - `order_items` - Order line items
+- `notifications` - Order status change notifications
+
+## Event-Driven Order Processing
+
+Orders are processed asynchronously using RabbitMQ:
+
+1. **Order Creation** - POST `/api/orders` creates order with `PENDING` status and publishes `OrderCreatedEvent`
+2. **Async Processing** - `OrderProcessor` consumes the event, simulates payment (5s delay, 50% success rate)
+3. **Completion** - On success, stock is deducted and status becomes `COMPLETED`
+4. **Expiration** - Orders stuck in `PROCESSING` for 10+ minutes are marked `EXPIRED` by scheduled job
+
+**Order Status Flow:** `PENDING` → `PROCESSING` → `COMPLETED` or `EXPIRED`
+
+### RabbitMQ Topology
+- **Exchange:** `orders.exchange` (direct)
+- **Queues:** `orders.created.queue`, `orders.completed.queue`, `orders.expired.queue`, `orders.dlq`
 
 ## Configuration
 
@@ -229,6 +250,8 @@ Key configuration properties in `application.yml`:
 |----------|-------------|---------|
 | `server.port` | Server port | 8080 |
 | `spring.datasource.url` | Database URL | jdbc:postgresql://localhost:5432/gpustore |
+| `spring.rabbitmq.host` | RabbitMQ host | localhost |
+| `spring.rabbitmq.port` | RabbitMQ port | 5672 |
 | `jwt.expiration` | Token expiration (ms) | 86400000 (24 hours) |
 
 ## License
