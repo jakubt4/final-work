@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Alert from '../components/Alert';
 import Button from '../components/Button';
@@ -5,7 +6,20 @@ import OrderCard from '../components/OrderCard';
 import { useOrders } from '../hooks/useOrders';
 
 export default function OrdersPage() {
-  const { orders, loading, error, refetch } = useOrders();
+  const { orders, loading, error, refetch, hasActiveOrders } = useOrders();
+  const [statusChanges, setStatusChanges] = useState([]);
+
+  const handleStatusChange = (orderId, newStatus) => {
+    setStatusChanges((prev) => [
+      ...prev.filter((sc) => sc.orderId !== orderId),
+      { orderId, newStatus, timestamp: Date.now() },
+    ]);
+
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+      setStatusChanges((prev) => prev.filter((sc) => sc.orderId !== orderId));
+    }, 5000);
+  };
 
   if (loading) {
     return (
@@ -61,13 +75,40 @@ export default function OrdersPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">My Orders</h1>
-        <p className="text-gray-600 mt-1">View your order history</p>
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">My Orders</h1>
+            <p className="text-gray-600 mt-1">View your order history</p>
+          </div>
+          {hasActiveOrders && (
+            <div className="flex items-center gap-2 text-sm text-blue-600">
+              <div className="animate-pulse w-2 h-2 bg-blue-600 rounded-full"></div>
+              <span>Live updates active</span>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Status change notifications */}
+      {statusChanges.length > 0 && (
+        <div className="mb-4 space-y-2">
+          {statusChanges.map((sc) => (
+            <Alert
+              key={`${sc.orderId}-${sc.timestamp}`}
+              type={sc.newStatus === 'COMPLETED' ? 'success' : 'info'}
+              message={`Order #${sc.orderId} status updated to ${sc.newStatus}`}
+            />
+          ))}
+        </div>
+      )}
 
       <div className="space-y-4">
         {orders.map((order) => (
-          <OrderCard key={order.id} order={order} />
+          <OrderCard
+            key={order.id}
+            order={order}
+            onStatusChange={handleStatusChange}
+          />
         ))}
       </div>
     </div>

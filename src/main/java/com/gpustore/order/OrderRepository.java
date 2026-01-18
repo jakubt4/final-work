@@ -2,7 +2,9 @@ package com.gpustore.order;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,4 +52,16 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      */
     @Query("SELECT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product WHERE o.id = :id")
     Optional<Order> findByIdWithItems(Long id);
+
+    /**
+     * Finds orders with a specific status that haven't been updated since the cutoff time.
+     * Used by the expiration job to find stale PROCESSING orders.
+     *
+     * @param status the order status to filter by
+     * @param cutoff orders with updatedAt before this time are returned
+     * @return list of stale orders
+     */
+    @Query("SELECT o FROM Order o LEFT JOIN FETCH o.user WHERE o.status = :status AND o.updatedAt < :cutoff")
+    List<Order> findByStatusAndUpdatedAtBefore(@Param("status") OrderStatus status,
+                                                @Param("cutoff") LocalDateTime cutoff);
 }

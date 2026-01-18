@@ -1,50 +1,98 @@
 # System Context
-**Goal:** A high-performance E-commerce platform for selling GPUs.
-**Current State:** Backend is fully implemented (Spring Boot 3.4), secured (JWT), and tested.
-**Objective:** Create a lightweight "Disposable UI" to visually test the User Journeys (Auth -> Browse -> Order).
+
+## Global Goal
+Refactor the synchronous E-commerce Backend into an **Event-Driven Architecture** to handle high-load order processing asynchronously. Introduce background job scheduling for order expiration and a notification system for audit trails.
+
+## Scope
+1.  **Infrastructure:** Add RabbitMQ (Docker) and Event Bus abstraction.
+2.  **Async Processing:** Decouple Order placement from processing (Simulation of 5s payment).
+3.  **Scheduler:** Automated cleanup of stale orders (CRON).
+4.  **Notifications:** Audit log for system events.
+5.  **Frontend Update:** React UI must poll for status changes.
+
+---
 
 # Technology Standards
-**Backend (Existing):**
-- Java 21, Spring Boot 3.4.1
-- PostgreSQL 16, Flyway
-- JWT Auth (Bearer)
-- Port: 8080
 
-**Frontend (New - To Be Implemented):**
-- **Framework:** React 18 + Vite (Minimal setup)
-- **Styling:** Tailwind CSS (via CDN or simple setup to save usage)
-- **Http Client:** Axios (configured with Base URL)
-- **Routing:** React Router DOM
+## Core Stack (additions)
+| Component | Technology | Version/Constraint |
+|-----------|------------|-------------------|
+| Messaging | **RabbitMQ** | 3.12-management (Docker) |
+| Framework | **Spring AMQP** | Spring Boot Starter AMQP |
+| Scheduling | **Spring Scheduler** | `@EnableScheduling` |
+| JSON | Jackson | JavaTimeModule (for LocalDateTime in Events) |
+| Logging | SLF4J / Logback | **MANDATORY:** Log every event publish/consume |
+| Documentation| Javadoc | **MANDATORY:** Class/Method level docs for all new Async components |
+
+---
 
 # Active Iteration Scope
-**Feature:** Minimalist React Frontend (The "UI Client")
-**Tasks:**
-1.  **Setup:** Initialize Vite project with Proxy to `http://localhost:8080`.
-2.  **Auth Module:**
-    - Login Screen (Email/Password) -> Stores JWT in localStorage.
-    - Axios Interceptor -> Auto-attaches `Authorization: Bearer <token>`.
-3.  **Product Module:**
-    - Fetch GET `/api/products` (Public/Protected check).
-    - Render grid of 12 GPUs.
-4.  **Order Module:**
-    - "Buy" button on product -> Calls POST `/api/orders`.
-    - Simple "My Orders" list fetching GET `/api/orders`.
 
-# Architecture & Data Model (JSON Contracts)
+## Feature: Event-Driven Order Lifecycle & Notifications
 
-**User (Auth):**
-- Login Request: `{ "email": "...", "password": "..." }`
-- Token Response: `{ "token": "...", "type": "Bearer", "expiresIn": 86400 }`
+## Backend Tasks (Global Part 5)
+1.  **Infra:** Update `docker-compose.yml` with RabbitMQ.
+2.  **Core:** Implement `EventBus` interface and `RabbitMqEventBus`.
+3.  **Domain Events:** Create Records: `OrderCreatedEvent`, `OrderCompletedEvent`, `OrderExpiredEvent`.
+4.  **Order Service Refactor:**
+    * Change `createOrder` to ONLY save `PENDING` status and publish `OrderCreatedEvent`.
+    * Remove synchronous stock deduction (or move to listener).
+5.  **Async Processor (`OrderProcessor`):**
+    * Listen to `OrderCreatedEvent`.
+    * Update status to `PROCESSING`.
+    * `Thread.sleep(5000)` (Simulate Payment).
+    * **Logic:** 50% chance -> `COMPLETED` + Publish `OrderCompletedEvent`.
+    * **Logic:** 50% chance -> Do nothing (Stay `PROCESSING`).
+6.  **Scheduler (`OrderExpirationJob`):**
+    * Run every 60s.
+    * Query: `status = PROCESSING` AND `updatedAt < now - 10min`.
+    * Action: Update to `EXPIRED` + Publish `OrderExpiredEvent`.
+7.  **Notification Service:**
+    * Listen to `OrderCompleted` and `OrderExpired`.
+    * Log "Fake Email" to console.
+    * Save to new `notifications` table.
 
-**Product:**
-- JSON: `{ "id": 1, "name": "RTX 4090", "price": 1599.99, "stock": 15 }`
+## Frontend Tasks (Global Part 6)
+1.  **Polling Hook:** Create `useOrderPolling(orderId)` hook.
+2.  **Order Detail UI:**
+    * Refactor `OrdersPage.jsx` / `OrderCard.jsx`.
+    * If status is `PENDING` or `PROCESSING`, auto-refresh every 3s.
+    * Show "Processing Payment..." spinner/toast.
+    * Stop polling when `COMPLETED` or `EXPIRED`.
 
-**Order:**
-- Create Request: `{ "items": [ { "productId": 1, "quantity": 1 } ] }`
+---
 
-# Implementation Roadmap
-- [x] Part 1: Infra & Database (Postgres/Flyway)
-- [x] Part 2: Security & User Auth (JWT)
-- [x] Part 3: Product & Order Logic (Pessimistic Locking)
-- [x] Part 4: Integration Tests & CI
-- [ ] **Part 5: React UI Client (Current Focus)**
+# Functional Specifications
+
+## User Stories
+* **US-Async-1:** As a system, when an order is created, I process it in the background so the user API response is instant.
+* **US-Async-2:** As a system, I automatically expire orders that are stuck in processing for more than 10 minutes.
+* **US-Async-3:** As an admin, I want to see a notification/audit log in the database whenever an order is completed or expired.
+
+## Validation Rules
+* **State Machine:**
+    * `PENDING` -> `PROCESSING` (via Processor)
+    * `PROCESSING` -> `COMPLETED` (via Processor 50%)
+    * `PROCESSING` -> `EXPIRED` (via Scheduler)
+* **Data Integrity:** Notification record must link to `order_id`.
+
+---
+
+# Architecture & Data Model
+
+## Database Schema Changes
+
+### New Table: `notifications`
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | BIGINT | PRIMARY KEY, AUTO |
+| order_id | BIGINT | FK -> orders(id) |
+| type | VARCHAR(50) | 'EMAIL', 'SYSTEM_ALERT' |
+| message | TEXT | Content of the event |
+| sent_at | TIMESTAMP | DEFAULT NOW |
+
+## Domain Events (JSON Payloads)
+
+**OrderCreatedEvent**
+```json
+{ "orderId": 123, "userId": 45, "total": 1599.99, "timestamp": "2026-01-15T10:00:00" }

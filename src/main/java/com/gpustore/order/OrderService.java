@@ -2,6 +2,9 @@ package com.gpustore.order;
 
 import com.gpustore.common.exception.ResourceNotFoundException;
 import com.gpustore.common.exception.ValidationException;
+import com.gpustore.config.RabbitMqConfig;
+import com.gpustore.event.EventBus;
+import com.gpustore.event.OrderCreatedEvent;
 import com.gpustore.order.dto.CreateOrderRequest;
 import com.gpustore.order.dto.OrderItemRequest;
 import com.gpustore.order.dto.UpdateOrderRequest;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -22,10 +26,13 @@ import java.util.List;
  *
  * <p>Handles business logic for order processing including:</p>
  * <ul>
- *   <li>Order creation with stock validation and deduction</li>
+ *   <li>Order creation with async event publishing</li>
  *   <li>Order status transitions with validation</li>
  *   <li>Order retrieval and deletion</li>
  * </ul>
+ *
+ * <p>Note: Stock validation and deduction has been moved to async processing
+ * via {@link OrderProcessor} to enable instant order creation response.</p>
  *
  * @author GPU Store Team
  * @version 1.0.0
@@ -40,6 +47,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final EventBus eventBus;
 
     /**
      * Constructs a new OrderService with required dependencies.
@@ -47,26 +55,29 @@ public class OrderService {
      * @param orderRepository   the repository for order persistence
      * @param productRepository the repository for product operations
      * @param userRepository    the repository for user lookups
+     * @param eventBus          the event bus for publishing domain events
      */
     public OrderService(OrderRepository orderRepository,
                         ProductRepository productRepository,
-                        UserRepository userRepository) {
+                        UserRepository userRepository,
+                        EventBus eventBus) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.eventBus = eventBus;
     }
 
     /**
      * Creates a new order for a user.
      *
-     * <p>Validates stock availability for all items, deducts stock,
-     * calculates total, and persists the order with its items.</p>
+     * <p>Creates the order with PENDING status and publishes an OrderCreatedEvent
+     * for async processing. Stock validation and deduction is handled asynchronously
+     * by the OrderProcessor.</p>
      *
      * @param userId  the ID of the user placing the order
      * @param request the order creation request with items
-     * @return the created order entity
+     * @return the created order entity with PENDING status
      * @throws ResourceNotFoundException if user or any product is not found
-     * @throws ValidationException       if insufficient stock for any item
      */
     public Order create(Long userId, CreateOrderRequest request) {
         log.debug("Creating order for user: {}", userId);
@@ -77,21 +88,11 @@ public class OrderService {
         BigDecimal total = BigDecimal.ZERO;
 
         for (OrderItemRequest itemRequest : request.items()) {
-            Product product = productRepository.findByIdWithLock(itemRequest.productId())
+            // Validate product exists (stock validation moved to async processing)
+            Product product = productRepository.findById(itemRequest.productId())
                     .orElseThrow(() -> new ResourceNotFoundException("Product", itemRequest.productId()));
 
-            if (product.getStock() < itemRequest.quantity()) {
-                log.warn("Insufficient stock for product {}: available={}, requested={}",
-                        product.getId(), product.getStock(), itemRequest.quantity());
-                throw new ValidationException(
-                        String.format("Insufficient stock for product '%s'. Available: %d, Requested: %d",
-                                product.getName(), product.getStock(), itemRequest.quantity()));
-            }
-
-            product.setStock(product.getStock() - itemRequest.quantity());
-            productRepository.save(product);
-            log.debug("Stock updated for product {}: newStock={}", product.getId(), product.getStock());
-
+            // Capture price at order time (stock deduction moved to OrderProcessor)
             BigDecimal itemPrice = product.getPrice();
             BigDecimal itemTotal = itemPrice.multiply(BigDecimal.valueOf(itemRequest.quantity()));
             total = total.add(itemTotal);
@@ -102,7 +103,16 @@ public class OrderService {
 
         order.setTotal(total);
         Order savedOrder = orderRepository.save(order);
-        log.debug("Order created: id={}, total={}", savedOrder.getId(), total);
+        log.info("Order created: id={}, total={}, status=PENDING", savedOrder.getId(), total);
+
+        // Publish event for async processing
+        eventBus.publish(RabbitMqConfig.ROUTING_KEY_CREATED, new OrderCreatedEvent(
+                savedOrder.getId(),
+                userId,
+                savedOrder.getTotal(),
+                LocalDateTime.now()
+        ));
+
         return savedOrder;
     }
 
