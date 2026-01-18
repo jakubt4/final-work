@@ -579,6 +579,61 @@ Nic.
 potom som zavolal clear a gh-cpc
 ```
 
+### Prompt #20: Call init
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [ init ]
+
+**Prompt:**
+```
+ /init
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som zavolal clear a gh-cpc
+```
+
+### Prompt #19: Fix issue with Orders
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [issue with orders ]
+
+**Prompt:**
+```
+ check logs and find and fix the issue
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som zavolal clear a gh-cpc
+```
+
+
 ## 3. Problémy a Riešenia 
 
 > 💡 **Tip:** Problémy sú cenné! Ukazujú ako riešiš problémy s AI.
