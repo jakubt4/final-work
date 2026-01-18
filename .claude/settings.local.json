@@ -40,7 +40,17 @@
       "Skill(gh-cpc)",
       "Bash(tasklist:*)",
       "Bash(findstr:*)",
-      "mcp__github__get_pull_request"
+      "mcp__github__get_pull_request",
+      "Bash(mvnw.cmd clean compile:*)",
+      "Bash(cmd //c \"mvnw.cmd clean compile -q\")",
+      "Bash(ls:*)",
+      "Bash(MAVEN_SKIP_RC=true ./mvnw clean:*)",
+      "Bash(MAVEN_SKIP_RC=true MAVEN_OPTS=\"\" MAVEN_CONFIG=\"\" ./mvnw:*)",
+      "Bash(export MAVEN_SKIP_RC=true)",
+      "Bash(export MAVEN_OPTS=\"\")",
+      "Bash(export MAVEN_CONFIG=\"\")",
+      "Bash(export MAVEN_DEBUG_OPTS=\"\")",
+      "Bash(mvn verify:*)"
     ]
   }
 }

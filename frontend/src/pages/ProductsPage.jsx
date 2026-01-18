@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Alert from '../components/Alert';
 import Button from '../components/Button';
 import ProductCard from '../components/ProductCard';
@@ -5,19 +7,14 @@ import { useProducts } from '../hooks/useProducts';
 import { useOrders } from '../hooks/useOrders';
 
 export default function ProductsPage() {
-  const { products, loading, error, refetch, updateProductStock } =
-    useProducts();
+  const { products, loading, error, refetch } = useProducts();
   const { createOrder } = useOrders();
+  const [recentOrder, setRecentOrder] = useState(null);
 
   const handleBuy = async (productId) => {
     const order = await createOrder([{ productId, quantity: 1 }]);
-    const item = order.items?.find((i) => i.productId === productId);
-    if (item) {
-      const product = products.find((p) => p.id === productId);
-      if (product) {
-        updateProductStock(productId, product.stock - 1);
-      }
-    }
+    setRecentOrder(order);
+    // Note: Stock will be deducted when order is COMPLETED, not immediately
     return order;
   };
 
@@ -70,6 +67,24 @@ export default function ProductsPage() {
         <h1 className="text-2xl font-bold text-gray-900">GPU Products</h1>
         <p className="text-gray-600 mt-1">Browse our selection of GPUs</p>
       </div>
+
+      {/* Recent order notification */}
+      {recentOrder && (
+        <div className="mb-6">
+          <Alert
+            type="info"
+            message={`Order #${recentOrder.id} created! Status: ${recentOrder.status}. View your orders page for live updates.`}
+          />
+          <div className="mt-2 text-center">
+            <Link
+              to="/orders"
+              className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+            >
+              View Orders
+            </Link>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((product) => (

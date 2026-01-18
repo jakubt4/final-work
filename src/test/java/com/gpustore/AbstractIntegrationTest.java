@@ -15,10 +15,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+/**
+ * Base class for integration tests providing common test infrastructure.
+ *
+ * <p>Configures PostgreSQL and RabbitMQ containers via Testcontainers,
+ * provides auth helpers and cleanup between tests.</p>
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @ActiveProfiles("test")
@@ -30,6 +39,17 @@ public abstract class AbstractIntegrationTest {
             .withDatabaseName("gpustore_test")
             .withUsername("test")
             .withPassword("test");
+
+    @Container
+    static RabbitMQContainer rabbitmq = new RabbitMQContainer("rabbitmq:3.12-management");
+
+    @DynamicPropertySource
+    static void configureRabbitMQ(DynamicPropertyRegistry registry) {
+        registry.add("spring.rabbitmq.host", rabbitmq::getHost);
+        registry.add("spring.rabbitmq.port", rabbitmq::getAmqpPort);
+        registry.add("spring.rabbitmq.username", () -> "guest");
+        registry.add("spring.rabbitmq.password", () -> "guest");
+    }
 
     @Autowired
     protected TestRestTemplate restTemplate;

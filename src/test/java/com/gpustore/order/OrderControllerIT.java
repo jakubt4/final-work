@@ -25,11 +25,10 @@ class OrderControllerIT extends AbstractIntegrationTest {
     private ProductRepository productRepository;
 
     @Test
-    void createOrder_WithValidData_ReducesProductStock() {
+    void createOrder_WithValidData_ReturnsPendingStatus() {
         // Given
         String token = getAuthToken();
         Product product = productRepository.findAll().get(0);
-        int initialStock = product.getStock();
         int orderQuantity = 2;
 
         CreateOrderRequest request = new CreateOrderRequest(
@@ -44,21 +43,20 @@ class OrderControllerIT extends AbstractIntegrationTest {
                 OrderResponse.class
         );
 
-        // Then
+        // Then - order created with PENDING status (async processing)
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().id()).isNotNull();
         assertThat(response.getBody().status()).isEqualTo(OrderStatus.PENDING);
         assertThat(response.getBody().items()).hasSize(1);
 
-        // Verify stock was reduced
-        Product updatedProduct = productRepository.findById(product.getId()).get();
-        assertThat(updatedProduct.getStock()).isEqualTo(initialStock - orderQuantity);
+        // Note: Stock is deducted asynchronously by OrderProcessor, not immediately
+        // See OrderAsyncFlowIT for async stock deduction tests
     }
 
     @Test
-    void createOrder_WithInsufficientStock_ReturnsBadRequest() {
-        // Given
+    void createOrder_WithExcessiveQuantity_StillCreatesOrder() {
+        // Given - In async model, stock validation happens during processing, not creation
         String token = getAuthToken();
         Product product = productRepository.findAll().get(0);
         int excessiveQuantity = product.getStock() + 100;
@@ -68,15 +66,17 @@ class OrderControllerIT extends AbstractIntegrationTest {
         );
 
         // When
-        ResponseEntity<String> response = restTemplate.exchange(
+        ResponseEntity<OrderResponse> response = restTemplate.exchange(
                 "/api/orders",
                 HttpMethod.POST,
                 new HttpEntity<>(request, authHeaders(token)),
-                String.class
+                OrderResponse.class
         );
 
-        // Then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        // Then - Order is created with PENDING status (validation happens async)
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().status()).isEqualTo(OrderStatus.PENDING);
     }
 
     @Test

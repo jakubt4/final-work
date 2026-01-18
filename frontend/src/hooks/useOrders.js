@@ -1,13 +1,20 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import api from '../api/axios';
+
+const ACTIVE_STATUSES = ['PENDING', 'PROCESSING'];
+const POLL_INTERVAL = 3000; // 3 seconds
 
 export function useOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const intervalRef = useRef(null);
+
+  const hasActiveOrders = useCallback(() => {
+    return orders.some((order) => ACTIVE_STATUSES.includes(order.status));
+  }, [orders]);
 
   const fetchOrders = useCallback(async () => {
-    setLoading(true);
     setError(null);
     try {
       const response = await api.get('/orders');
@@ -19,9 +26,31 @@ export function useOrders() {
     }
   }, []);
 
+  // Initial fetch
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
+
+  // Polling for active orders
+  useEffect(() => {
+    // Clear any existing interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+
+    // Only poll if there are active orders
+    if (hasActiveOrders()) {
+      intervalRef.current = setInterval(fetchOrders, POLL_INTERVAL);
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [hasActiveOrders, fetchOrders]);
 
   const createOrder = async (items) => {
     const response = await api.post('/orders', { items });
@@ -35,6 +64,7 @@ export function useOrders() {
     error,
     refetch: fetchOrders,
     createOrder,
+    hasActiveOrders: hasActiveOrders(),
   };
 }
 

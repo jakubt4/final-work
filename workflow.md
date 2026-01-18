@@ -633,6 +633,170 @@ Nic.
 potom som zavolal clear a gh-cpc
 ```
 
+**PART 2**
+
+### Prompt #1: Prepare context
+
+**Nástroj:** [ gemini]  
+**Kontext:** [ prepare context ]
+
+**Prompt:**
+```
+there are new features to be implemented in my project (codebase here https://github.com/jakubt4/final-work) - read attached files with descriptions for new features + used prps and fill in the initial template - also take into account the frontend has to be changed, jdocs and logs.. flow with inital-template will be to enhance -> generate-prp -> execute-prp ; behave like java senior/architect and use constructive criticism ; read files carefully
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+Skontrolval som si vystup v md formate a copy-paastol som ho do INITIAL.md v projekte
+```
+
+### Prompt #2: Enhance init
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [ enhance init ]
+
+**Prompt:**
+```
+/enhance-init
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som pouzil clear
+```
+
+### Prompt #3: Generate PRPSs
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [ generate prps ]
+
+**Prompt:**
+```
+/generate-prp ENHANCED-INITIAL-event-driven-order.md
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som pouzil clear a gh-cpc
+```
+
+### Prompt #4: Execute PRP part1 event-driven-order 
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [ execute prp ]
+
+**Prompt:**
+```
+/execute-prp event-driven-order-part1.md
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som pouzil clear a gh-cpc
+```
+
+### Prompt #5: Execute PRP part2 event-driven-order 
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [ execute prp ]
+
+**Prompt:**
+```
+/execute-prp event-driven-order-part2.md
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som pouzil clear a gh-cpc
+```
+
+### Prompt #6: Execute PRP part3 event-driven-order 
+
+**Nástroj:** [ claude code ]  
+**Kontext:** [ execute prp ]
+
+**Prompt:**
+```
+/execute-prp event-driven-order-part3.md
+```
+
+**Výsledok:**  
+[x] ✅ Fungoval perfektne (first try)  
+[ ] ⭐⭐⭐⭐ Dobré, potreboval malé úpravy  
+[ ] ⭐⭐⭐ OK, potreboval viac úprav  
+[ ] ⭐⭐ Slabé, musel som veľa prepísať  
+[ ] ❌ Nefungoval, musel som celé prepísať
+
+**Čo som musel upraviť / opraviť:**
+```
+Nic.
+```
+
+**Poznámky / Learnings:**
+```
+potom som pouzil clear a init a gh-cpc
+```
+
 
 ## 3. Problémy a Riešenia 
 
