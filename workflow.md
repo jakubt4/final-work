@@ -61,7 +61,7 @@ Nic
 ### Prompt #2: Improve zakladny context (master-init)
 
 **Nástroj:** [ Gemini Pro ]  
-**Kontext:** [ Rozsirenie kontextu - vygenerovanie .gitignore a upravu generate-prp + execute-prp pre podporu rozdelenie PRPs na casti]
+**Kontext:** [ Rozsirenie kontextu]
 
 **Prompt:**
 ```
