@@ -944,6 +944,13 @@ Planning (Logging & JDocs)
 Naucil som sa, ze poziadavky ako "Javadocs" alebo "Logging" musim zadat hned na zaciatku (v generate-prp), a nie ich robit ako refaktoring na konci, lebo to zbytocne zdvojnasobuje spotrebu tokenov.
 ```
 
+**6.**
+```
+Directive Engineering (No-Choice Policy)
+Neziadat, ale vynucovat. Odstranit zdvorilostnu vrstvu a nahradit ju algoritmickou presnostou. 
+Instrukcia musi byt pre AI spustitelny protokol (executable), nie navrh na diskusiu (pokial nediskutujeme).
+```
+
 ---
 
 ### 4.4 Moje Top 3 Tipy Pre Ostatných
