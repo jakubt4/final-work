@@ -58,21 +58,23 @@ class OrderExpirationJobIT extends AbstractIntegrationTest {
         ReflectionTestUtils.setField(staleOrder, "updatedAt", elevenMinutesAgo);
         orderRepository.saveAndFlush(staleOrder);
 
+        final Long orderId = staleOrder.getId();
+
         // When
         orderExpirationJob.expireStaleOrders();
 
         // Then
         await().atMost(5, TimeUnit.SECONDS)
                 .until(() -> {
-                    Order reloaded = orderRepository.findById(staleOrder.getId()).orElseThrow();
+                    Order reloaded = orderRepository.findById(orderId).orElseThrow();
                     return reloaded.getStatus() == OrderStatus.EXPIRED;
                 });
 
         // Verify notification was created
         await().atMost(5, TimeUnit.SECONDS)
-                .until(() -> !notificationRepository.findByOrderId(staleOrder.getId()).isEmpty());
+                .until(() -> !notificationRepository.findByOrderId(orderId).isEmpty());
 
-        assertThat(notificationRepository.findByOrderId(staleOrder.getId()))
+        assertThat(notificationRepository.findByOrderId(orderId))
                 .anyMatch(n -> n.getType() == NotificationType.SYSTEM_ALERT);
     }
 

@@ -113,7 +113,8 @@ public class OrderService {
                 LocalDateTime.now()
         ));
 
-        return savedOrder;
+        // Re-fetch with eager-loaded items and products to avoid LazyInitializationException
+        return orderRepository.findByIdWithItems(savedOrder.getId()).orElse(savedOrder);
     }
 
     /**
